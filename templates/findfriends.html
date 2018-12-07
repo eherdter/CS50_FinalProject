@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Find Friends
+{% endblock %}
+
+{% block main %}
+    <form action="/findfriends" method="post">
+        <div class="form-group">
+        <select class="form-control" name="name">
+                 <!--option value="name">For Who</option-->
+                {% for pet in pets %}
+                   <option value = "{{pet.name}}">{{pet.name}}</option>
+                {% endfor %}
+        </select>
+        </div>
+        <p>Location Search Criteria.
+        Make one selection.</p>
+        <div class="form-group">
+             <input type="radio" name="zipcode" value="zipcode">Find friends in your postal code<br>
+             <input type="radio" name="city" value="city">Find friends in your city<br>
+             <input type="radio" name="state" value="state">Find friends in your state<br>
+        </div>
+        <p>Does your dog prefer to play with male or female dogs? Select one. </p>
+        <div class="form-group">
+            <input type="radio" name="M" value="M"> My dog does best playing with Male dogs.<br>
+             <input type="radio" name="F" value="F">My dog does best playing with Female dogs.<br>
+             <input type="radio" name="Both" value="Both">My dog has no preference.<br>
+        </div>
+        <p> Are you searching for other dogs of the same type/breed as yours? </p>
+            <div class="form-group">
+            <input type="radio" name="yes" value="Y">Y<br>
+             <input type="radio" name="no" value="N">N<br>
+        </div>
+        <button class="btn btn-primary" type="submit">Find Friends</button>
+    </form>
+{% endblock %}
+
