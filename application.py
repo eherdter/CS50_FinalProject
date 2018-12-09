@@ -98,6 +98,7 @@ def findfriends():
         city= user_data[0]['city']
         state = user_data[0]['state']
         type = user_data[0]['type']
+        sex=user_data[0]['sex']
 
         M = "M"
         F = "F"
@@ -138,26 +139,58 @@ def findfriends():
         # i.e. for three rows it would be like this   [{name:" ", type: " "}, {}, {} ]
 
         #just based on location and type
+
+
+        found = db.execute("SELECT pets.name, pets.type, pets.sex, pets.user_id, users.email, users.zipcode, users.city, users.state FROM pets INNER JOIN users ON pets.user_id = users.id")
+
         if request.form.get("zipcode"):
             if request.form.get("yes"):
-                found = db.execute("SELECT pets.name, pets.type, pets.sex, pets.user_id, users.email, users.zipcode, users.city, users.state FROM pets INNER JOIN users ON pets.user_id = users.id WHERE type = :type AND zipcode = :zipcode",  type=type, zipcode=zipcode)
+                if request.form.get("M"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('zipcode') == zipcode and d.get('type') == type and d.get('sex') == M ]
+                elif request.form.get("F"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('zipcode') == zipcode and d.get('type') == type and d.get('sex') == F ]
+                else:
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('zipcode') == zipcode and d.get('type') == type]
             else:
-                found = db.execute("SELECT pets.name, pets.type, pets.sex, pets.user_id, users.email, users.zipcode, users.city, users.state FROM pets INNER JOIN users ON pets.user_id = users.id WHERE zipcode = :zipcode", zipcode=zipcode)
+                if request.form.get("M"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('zipcode') == zipcode and d.get('sex') == M]
+                elif request.form.get("F"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('zipcode') == zipcode and d.get('sex') == F]
+                else:
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('zipcode') == zipcode]
 
         elif request.form.get("city"):
             if request.form.get("yes"):
-                found = db.execute("SELECT pets.name, pets.type, pets.sex, pets.user_id, users.email, users.zipcode, users.city, users.state FROM pets INNER JOIN users ON pets.user_id = users.id WHERE type = :type AND city = :city",  type=type, city=city)
+                if request.form.get("M"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('city') == city and d.get('type') == type and d.get('sex') == M]
+                elif request.form.get("F"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('city') == city and d.get('type') == type and d.get('sex') == F]
+                else:
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('city') == city and d.get('type') == type]
             else:
-                found = db.execute("SELECT pets.name, pets.type, pets.sex, pets.user_id, users.email, users.zipcode, users.city, users.state FROM pets INNER JOIN users ON pets.user_id = users.id WHERE city = :city", city=city)
-
+                if request.form.get("M"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('city') == city and d.get('sex') == M]
+                elif request.form.get("F"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('city') == city and d.get('sex') == F]
+                else:
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('city') == city]
         else:
             if request.form.get("yes"):
-                found = db.execute("SELECT pets.name, pets.type, pets.sex, pets.user_id, users.email, users.zipcode, users.city, users.state FROM pets INNER JOIN users ON pets.user_id = users.id WHERE type = :type AND state = :state",  type=type, state=state)
+                if request.form.get("M"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('state') == state and d.get('type') == type and d.get('sex') == M]
+                elif request.form.get('F'):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('state') == state and d.get('type') == type and d.get('sex') == F]
+                else:
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('state') == state and d.get('type') == type]
             else:
-                found = db.execute("SELECT pets.name, pets.type, pets.sex, pets.user_id, users.email, users.zipcode, users.city, users.state FROM pets INNER JOIN users ON pets.user_id = users.id WHERE state = :state", state=state)
+                if request.form.get("M"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('state') == state and d.get('sex') == M]
+                elif request.form.get("F"):
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('state') == state and d.get('sex') == F]
+                else:
+                    filter = [d for d in found if d.get('user_id') != user_id and d.get('state') == state]
 
-
-        if len(found) <= 1:
+        if len(filter) <= 1:
             return apology("Sorry, No other owners in the database with dogs that match your selection")
 
 
@@ -167,7 +200,10 @@ def findfriends():
         #these two below are visually equivalent
         #found[:] = [d for d in found if d.get('user_id') != user_id]
 
-        filter = [d for d in found if d.get('user_id') != user_id]
+        #filter = [d for d in found if d.get('user_id') != user_id]
+
+        #test = [d for d in found1 if d.get('user_id') != user_id and d.get('state') == state]
+        #filter = [d for d in found if d.get('user_id') != user_id and d.get('state') == state]
 
         #test = next(item for item in found if item['user_id'] != user_id) - for some reason this throws and error if nothing is in it
 
@@ -175,23 +211,30 @@ def findfriends():
             return apology("no friends that match those selections")
 
         #return render_template("found.html", results=filter, test=test)
-        return render_template("found.html", results=filter)
+        return render_template("found.html", results=filter, filter=filter)
 
 
 
-@app.route("/mypets")
+@app.route("/mypets", methods=["GET", "POST"])
 @login_required
 def mypets():
     """Show pets"""
-
+    if request.method =="GET":
     # show the pets that the user has registered
+        results = db.execute("SELECT name, type, sex, DOB FROM pets WHERE user_id = :user_id", user_id=session['user_id'])
+        pets = db.execute("SELECT name, type, sex, DOB FROM pets WHERE user_id = :user_id", user_id=session['user_id'])
+        if not pets:
+            return apology("you havent entered any pets")
 
-    results = db.execute("SELECT name, type, sex, DOB FROM pets WHERE user_id = :user_id", user_id=session['user_id'])
+        return render_template("mypets.html", pets=pets)
 
-    if not results:
-        return apology("you havent entered any pets")
+    elif request.method == "POST":
+        name = request.method.get("name")
+        weight = request.method.get("weight")
+        exc=request.method.get("exercise")
 
-    pets = results[0]["name"]
+
+    #pets = results[0]["name"]
     #lookup current price of each share and put it into an array
     #used some snippets from here...
     #https://gist.github.com/tronghieu1987/c0f507dafa148a772cceea011f220cdf
