@@ -1,12 +1,19 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session, jsonify
+from flask import Flask, flash, redirect, render_template, request, session, jsonify, Response
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 
+import io
+import random
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+import base64
 
 from helpers import apology, login_required, lookup, usd
 
@@ -229,34 +236,40 @@ def mypets():
         return render_template("mypets.html", pets=pets)
 
     elif request.method == "POST":
-        name = request.method.get("name")
-        weight = request.method.get("weight")
-        exc=request.method.get("exercise")
+        pet_name = request.form.get("name")
+        weight = request.form.get("weight")
+        exercise=request.form.get("exc")
+        date = request.form.get("date")
+
+        #insert data into the database userid=session['user_id'] and
+        entry = db.execute("INSERT INTO health (user_id, pet_name, weight, exercise, date) VALUES(:user_id, :pet_name, :weight, :exercise, :date)", user_id = session["user_id"], pet_name= pet_name, weight=weight, exercise=exercise, date=date)
 
 
-    #pets = results[0]["name"]
-    #lookup current price of each share and put it into an array
-    #used some snippets from here...
-    #https://gist.github.com/tronghieu1987/c0f507dafa148a772cceea011f220cdf
-    # can edit rows of a dictionary as in holding['new name'] = value
-    #total_value = 0
-    #for holding in holdings:
-    #    quote = lookup(holding["symbol"])
-    #    price = quote["price"]
-    #    holding["price"] = price
-    #    value = price * int(holding["tot_shares"])
-    #    holding["value"] = value
-    #    total_value = int(total_value + value)
-
-
-
-    #determine cash balance
-    #row = db.execute("SELECT cash FROM users WHERE id = :user_id", user_id=session['user_id'])
-    #balance = int(row[0]["cash"])
-    #sum = int(balance + total_value)
-
-    return render_template("mypets.html", pets=pets)
+    return render_template("login.html")
     #return apology("TODO")
+
+@app.route('/plot')
+def build_plot():
+    #https://stackoverflow.com/questions/41459657/how-to-create-dynamic-plots-to-display-on-flask
+    img = io.BytesIO()
+
+
+    y = [1,2,3,4,5]
+
+    x = [0,2,1,3,4]
+    plt.plot(x,y)
+    plt.savefig(img, format='png')
+    img.seek(0)
+
+    plot_url = base64.b64encode(img.getvalue()).decode()
+
+    return '<img src="data:image/png;base64,{}">'.format(plot_url)
+
+
+
+  #rest of vals follow
+  #plt.plot(x, y) #formulate your x, y values before
+  #plt.savefig('/app/static/images/filenameXYZ.png') #save to the images directory
 
 @app.route("/new", methods=["GET", "POST"])
 @login_required
