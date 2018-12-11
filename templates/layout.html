@@ -33,32 +33,41 @@
 
     </head>
 
-    <body background="IMG_1337.jpg">
+    <body>
 
-
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Fido's Fitness and Friends</h1>
+        <p>A web app to track your dogs fitness and find play mates inspired by my experience owning a dog and finding friends in a new city. </p>
+      </div>
         <nav class="navbar navbar-expand-md navbar-light bg-light border">
-            <a class="navbar-brand" href="/"><span class="blue">Fido's Fitness & Friends</span></a>
-            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+             <div class="container-fluid">
+                <!--div class="navbar-header">
+                    <a class="navbar-brand" href="/"><span class="blue">About</span></a>
+                </div-->
+            <!--button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+            </button-->
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
                     <ul class="navbar-nav mr-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/mypets">My Pets</a></li>
                         <li class="nav-item"><a class="nav-link" href="/new">Add Pet</a></li>
                         <li class="nav-item"><a class="nav-link" href="/findfriends">Find Friends</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/plot">Plot</a></li>
                     </ul>
                     <ul class="navbar-nav ml-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                     </ul>
                 {% else %}
-                    <ul class="navbar-nav ml-auto mt-2">
+                    <ul class="navbar-nav mr-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                         <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
                     </ul>
                 {% endif %}
-            </div>
-        </nav>
+                </div>
+            </nav>
+    <!--/div-->
 
         {% if get_flashed_messages() %}
             <header>
@@ -73,9 +82,9 @@
         </main>
 
         <footer class="small text-center text-muted">
-            Data provided for free by <a href="https://iextrading.com/developer">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use</a>.
+            CS50 Final Project - Liz Herdter <!--a href="https://iextrading.com/developer">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use</a-->.
         </footer>
-
+</div>
     </body>
 
 </html>
