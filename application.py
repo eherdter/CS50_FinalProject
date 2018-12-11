@@ -248,23 +248,58 @@ def mypets():
     return render_template("login.html")
     #return apology("TODO")
 
-@app.route('/plot')
+@app.route('/plot', methods=["GET", "POST"])
+@login_required
 def build_plot():
+
+    #pets = db.execute("SELECT DISTINCT pet_name FROM health WHERE user_id=:user_id", user_id=session['user_id'])
+    pets = db.execute("SELECT name  FROM pets WHERE user_id=:user_id", user_id=session["user_id"])
+
+    if request.method == "GET":
+        return render_template("plot.html", pets=pets)
     #https://stackoverflow.com/questions/41459657/how-to-create-dynamic-plots-to-display-on-flask
-    img = io.BytesIO()
 
+    elif request.method == "POST":
 
-    y = [1,2,3,4,5]
+        pet_name = request.form.get("name")
+        img = io.BytesIO()
 
-    x = [0,2,1,3,4]
-    plt.plot(x,y)
-    plt.savefig(img, format='png')
-    img.seek(0)
+        data = db.execute("SELECT weight, exercise, date FROM health WHERE user_id=:user_id AND pet_name = :pet_name", user_id=session['user_id'], pet_name = pet_name)
+        if not data:
+            return apology("you havent entered any data to the health diary")
 
-    plot_url = base64.b64encode(img.getvalue()).decode()
+        weight=[]
+        for item in data:
+            new = item['weight']
+            weight.append(new)
 
-    return '<img src="data:image/png;base64,{}">'.format(plot_url)
+        exercise=[]
+        for item in data:
+            new = item['exercise']
+            exercise.append(new)
 
+        date=[]
+        for item in data:
+            new=item['date']
+            date.append(new)
+
+        x=date
+        y=exercise
+        #y = [1,2,3,4,5]
+        #x = [0,2,1,3,4]
+        plt.plot(x,y)
+        plt.xlabel('Date')
+        plt.ylabel('Exercise Time (minutes)')
+        plt.savefig(img, format='png')
+        img.seek(0)
+
+        plot_url = base64.b64encode(img.getvalue()).decode()
+
+        #return '<img src="data:image/png;base64,{}">'.format(plot_url)
+        return render_template('plot.html', plot_url=plot_url)
+        #return redirect('plotted')
+
+        #return render_template("plot.html", data=data, new=date)
 
 
   #rest of vals follow
