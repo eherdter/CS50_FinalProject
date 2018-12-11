@@ -1,3 +1,8 @@
+container {
+    width: 1000px;
+    background: url('IMG_1337.jpg') no-repeat center top #FFF;
+    margin: 0 auto;
+}
 nav .navbar-brand
 {
     /* size for brand */
