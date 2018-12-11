@@ -1,15 +1,20 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Add New Pet
+    Find Friends
 {% endblock %}
 
-
 {% block main %}
-
-<title> Plot</title>
-<body>
-<img src="data:image/png;base64, {{ plot_url }}">
-</body>
-
+    <form action="/plot" method="post">
+                <div class="form-group">
+        <select class="form-control" name="name">
+                 <!--option value="name">For Who</option-->
+                {% for pet in pets %}
+                   <option value = "{{pet.name}}">{{pet.name}}</option>
+                {% endfor %}
+        </select>
+        </div>
+            <button class="btn btn-primary" type="submit">Plot</button>
+    </form>
+    <img src="data:image/png;base64, {{ plot_url }}">
 {% endblock %}
