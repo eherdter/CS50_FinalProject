@@ -15,7 +15,7 @@ from matplotlib.figure import Figure
 
 import base64
 
-from helpers import apology, login_required, lookup, usd
+from helpers import apology, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -30,9 +30,6 @@ def after_request(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
-
-# Custom filter
-app.jinja_env.filters["usd"] = usd
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -198,7 +195,7 @@ def findfriends():
                     filter = [d for d in found if d.get('user_id') != user_id and d.get('state') == state]
 
         if len(filter) <= 1:
-            return apology("Sorry, No other owners in the database with dogs that match your selection")
+            return apology("Sorry, there are no other dogs in our database that match your selection... WOOF!")
 
 
         #test = [d for d in found if d.get('user_id') != user_id]
@@ -231,7 +228,7 @@ def mypets():
         results = db.execute("SELECT name, type, sex, DOB FROM pets WHERE user_id = :user_id", user_id=session['user_id'])
         pets = db.execute("SELECT name, type, sex, DOB FROM pets WHERE user_id = :user_id", user_id=session['user_id'])
         if not pets:
-            return apology("you havent entered any pets")
+            return apology("To get started add a pet! No time like the present!")
 
         return render_template("mypets.html", pets=pets)
 
@@ -245,7 +242,7 @@ def mypets():
         entry = db.execute("INSERT INTO health (user_id, pet_name, weight, exercise, date) VALUES(:user_id, :pet_name, :weight, :exercise, :date)", user_id = session["user_id"], pet_name= pet_name, weight=weight, exercise=exercise, date=date)
 
 
-    return render_template("login.html")
+    return render_template("mypets.html")
     #return apology("TODO")
 
 @app.route('/plot', methods=["GET", "POST"])
@@ -266,7 +263,7 @@ def build_plot():
 
         data = db.execute("SELECT weight, exercise, date FROM health WHERE user_id=:user_id AND pet_name = :pet_name", user_id=session['user_id'], pet_name = pet_name)
         if not data:
-            return apology("you havent entered any data to the health diary")
+            return apology("Whoops, looks like you haven't entered any exercise amount into the diary. No time like the present!")
 
         weight=[]
         for item in data:
@@ -310,6 +307,13 @@ def build_plot():
 @login_required
 def new():
 
+    breeds = ["American Pit Bull", "Australian Shepherds","Beagle", "Bloodhound",
+    "Boston Terrier", "Boxer", "Bulldog", "Cavalier King Charles Spaniel", "Collie", "Corgi",
+    "Dachshund", "Doberman Pinscher", "French Bulldog", "German Shepherd", "Golden Retriever",
+    "Great Dane", "Greyhound",  "Labrador Retriever", "Mastiff", "Mixed Breed", "Newfoundland",
+    "Pointer (English)", "Pointer (German Shorthaired)","Pomeranian", "Poodle", "Rhodesian Ridgeback",
+    "Rottweiler", "Schnauzer", "Shih Tzu","Siberian Husky", "Spaniel (Cocker)", "Spaniel (English Springer)",
+    "Vizsla", "Weimeraner","Yorkshire Terrier"]
 
     if request.method == "POST":
 
@@ -333,12 +337,12 @@ def new():
         newpet = db.execute("INSERT INTO pets (user_id, name, type, sex, DOB) VALUES(:user_id, :name, :type, :sex, :DOB)", user_id = session["user_id"], name= request.form.get("name"), type=request.form.get("type"), sex=request.form.get("sex"), DOB=request.form.get("DOB"))
 
         if not newpet:
-            return apology("Looks like you've already added this pet")
+            return apology("Looks like you've already added this pet to our database. Hopefully your pets don't share names!")
 
         return redirect("/mypets")
 
     elif request.method == "GET":
-        return render_template("new.html")
+        return render_template("new.html", breeds=breeds)
 
 
 
@@ -355,18 +359,18 @@ def login():
 
     #      # Ensure username was submitted
         if not request.form.get("email"):
-            return apology("must provide email", 403)
+            return apology("Please provide your email.", 403)
 
     #      # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology("Please provide your password.", 403)
 
     #      # Query database for username
         rows = db.execute("SELECT * FROM users WHERE email = :email", email=request.form.get("email"))
 
           # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid email and/or password", 403)
+            return apology("Hmm, our sniffing dogs have searched our database and it seems like you've entered an invalid email and/or password.", 403)
 
          # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -402,16 +406,16 @@ def register():
 
     elif request.method == "POST":
         if not request.form.get("email"):
-            return apology("email missing")
+            return apology("Please provide your email.")
 
         if not request.form.get("password") or not request.form.get("confirmation"):
-            return apology("must confirm password")
+            return apology("Please confirm your password.")
 
         if request.form.get("password") != request.form.get("confirmation"):
-            return apology("passwords must match")
+            return apology("Hmm, looks like your passwords don't match.")
 
         if not request.form.get("zipcode"):
-            return apology("zipcode missing")
+            return apology("Whoops, your zipcode is missing.")
 
         hash = generate_password_hash(request.form.get("password"))
 
@@ -430,9 +434,9 @@ def register():
                             email = request.form.get("email"), hash=hash, zipcode = request.form.get("zipcode"), city=city, state=state)
 
         if not result:
-            return apology("email already exists")
+            return apology("Hmm, our dog sniffers have searched our database and found that email already in existence.")
 
-    return redirect("/")
+    return redirect("/mypets")
 
     #return redirect("/location")
     #return apology("TODO")
