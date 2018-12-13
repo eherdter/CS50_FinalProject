@@ -3,29 +3,55 @@ container {
     background: url('IMG_1337.jpg') no-repeat center top #FFF;
     margin: 0 auto;
 }
+
+.red {
+      background-color: AliceBlue!important;
+   }
+
+.jumbotron {
+    background-image: url("laszlo.jpg");
+    background-position: center;
+    min-height: 50%;
+    background-size: 100% 100%;
+}
+
+
+.jumbotron h1
+{
+    font-family: 'Hi Melody', serif;
+    font-size: 48px;
+    width: 100%;
+    font-weight:bold;
+    color: White;
+}
+
+.jumbotron p
+{
+
+    color: White;
+}
+/*make navbar text black*/
+.navbar-nav.mr-auto.mt-2 li a {
+    color: Black;
+}
+
+.navbar-nav.ml-auto.mt-2 li a {
+    color: Black;
+}
+
+
+/*change background color of navbar*/
+.navbar{
+   background-color: LightGreen!important;
+}
+
 nav .navbar-brand
 {
     /* size for brand */
     font-size: xx-large;
+
 }
 
-/* colors for brand */
-nav .navbar-brand .blue
-{
-    color: #537fbe;
-}
-nav .navbar-brand .red
-{
-    color: #ea433b;
-}
-nav .navbar-brand .yellow
-{
-    color: #f5b82e;
-}
-nav .navbar-brand .green
-{
-    color: #2e944b;
-}
 
 main .form-control
 {
