@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-<p>My Pets</p>
+<p><b>My Pets</b></p>
     <table class="table table-hover">
         <thead>
 
@@ -29,7 +29,7 @@
         </tbody>
     </table>
 
-<p> Update Health Diary</p>
+<p> <b>Update Health Diary</b> </p>
     <form action="/mypets" method="post">
         <div class="form-group">
         <select class="form-control" name="name">
@@ -50,8 +50,9 @@
         <div class="form-group">
             <input class="form-control" name="date" placeholder="Date (MM-DD-YYYY)" type="date" value = "06-01-2017"/>
         </div>
-        <button class="btn btn-primary" type="submit">Add to Health Diary</button>
+        <button class="btn btn-primary" type="submit">Add to Health Diary! WOOF!</button>
     </form>
+    <p> To view health diary select the <i>View Exercise Diary</i> tab.</p>
 
 
 {% endblock %}

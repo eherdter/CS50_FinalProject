@@ -5,20 +5,22 @@
 {% endblock %}
 
 {% block main %}
+<p> <b>Tell us a little bit about your pet. <br/> We will use this information when you want to search for pupmates.</b> </p>
     <form action="/new" method="post">
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="name" placeholder="Your Pet's Name" type="text"/>
         </div>
         <div class="form-group">
-            <input class="form-control" name="type" placeholder="Breed" type="text"/>
+            <input class="form-control" name="type" placeholder="Breed/Type" type="text"/>
         </div>
+        <p> <i> <font size="-1">***Enter "mixed breed" if they are a mutt! The best kind... WOOF!**</font></i></p>
         <div class="form-group">
-            <input class="form-control" name="sex" placeholder="Sex" type="text"/>
+            <input class="form-control" name="sex" placeholder="M or F?" type="text"/>
         </div>
         <div class="form-group">
             <input class="form-control" name="DOB" placeholder="Date of Birth (MM-DD-YYYY)" type="date" value = "06-01-2017"/>
         </div>
-        <button class="btn btn-primary" type="submit">Add Your Pet! </button>
+        <button class="btn btn-primary" type="submit">Add Your Pet! WOOF! </button>
     </form>
 {% endblock %}
 

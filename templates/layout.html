@@ -12,6 +12,8 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"/>
 
         <link href="/static/styles.css" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Hi Melody" rel="stylesheet">
 
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
@@ -31,16 +33,23 @@
 
         <title>Fido'sFitness&Friends: {% block title %}{% endblock %}</title>
 
+        <style>
+          body {
+            font-family: 'Montserrat', serif;
+            font-size: 20px;
+          }
+        </style>
+
     </head>
 
     <body>
 
     <div class="container">
-      <div class="jumbotron">
-        <h1>Fido's Fitness and Friends</h1>
-        <p>A web app to track your dogs fitness and find play mates inspired by my experience owning a dog and finding friends in a new city. </p>
+      <div class="jumbotron red border">
+        <h1 class="text-center">Fido's Fitness & Friends</h1>
+        <p class="text-center">A web application to track your dog's fitness and search for other pupmates!</p>
       </div>
-        <nav class="navbar navbar-expand-md navbar-light bg-light border">
+        <nav class="navbar navbar-expand-md navbar-light bg-light border" style="background-color: #e3f2fd;">
              <div class="container-fluid">
                 <!--div class="navbar-header">
                     <a class="navbar-brand" href="/"><span class="blue">About</span></a>
@@ -54,7 +63,7 @@
                         <li class="nav-item"><a class="nav-link" href="/mypets">My Pets</a></li>
                         <li class="nav-item"><a class="nav-link" href="/new">Add Pet</a></li>
                         <li class="nav-item"><a class="nav-link" href="/findfriends">Find Friends</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/plot">Plot</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/plot">View Exercise Diary</a></li>
                     </ul>
                     <ul class="navbar-nav ml-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>

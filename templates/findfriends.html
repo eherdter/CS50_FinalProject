@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block main %}
+<p ><b>Find friends for who?</b></p>
     <form action="/findfriends" method="post">
         <div class="form-group">
         <select class="form-control" name="name">
@@ -14,24 +15,23 @@
                 {% endfor %}
         </select>
         </div>
-        <p>Location Search Criteria.
-        Make one selection.</p>
+        <p><b>I want to find friends in my...</b></p>
         <div class="form-group">
-             <input type="radio" name="zipcode" value="zipcode">Find friends in your postal code<br>
-             <input type="radio" name="city" value="city">Find friends in your city<br>
-             <input type="radio" name="state" value="state">Find friends in your state<br>
+             <input type="radio" name="zipcode" value="zipcode"> Postal code<br>
+             <input type="radio" name="city" value="city"> City<br>
+             <input type="radio" name="state" value="state"> State<br>
         </div>
-        <p>Does your dog prefer to play with male or female dogs? Select one. </p>
+        <p><b>My dog plays best with...</b> </p>
         <div class="form-group">
-            <input type="radio" name="M" value="M"> My dog does best playing with Male dogs.<br>
-             <input type="radio" name="F" value="F">My dog does best playing with Female dogs.<br>
+            <input type="radio" name="M" value="M"> <i>male</i> dogs.<br>
+             <input type="radio" name="F" value="F"> <i>female</i> dogs.<br>
              <input type="radio" name="Both" value="Both">My dog has no preference.<br>
         </div>
-        <p> Are you searching for other dogs of the same type/breed as yours? </p>
+        <p> <b> I'd like to find friends for my dog that are of the <i>same</i> breed.</b></p>
             <div class="form-group">
-            <input type="radio" name="yes" value="Y">Y<br>
-             <input type="radio" name="no" value="N">N<br>
+            <input type="radio" name="yes" value="Y">Yes.<br>
+             <input type="radio" name="no" value="N">No.<br>
         </div>
-        <button class="btn btn-primary" type="submit">Find Friends</button>
+        <button class="btn btn-primary" type="submit">Find Friends! WOOF!</button>
     </form>
 {% endblock %}
