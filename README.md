@@ -1,4 +1,4 @@
-# CS50_FinalProject
+#Final Project for CS $Fifty$
 
 ### Main Files
 - Application.py - main functionality
@@ -8,7 +8,7 @@
 
 
 ### About
-For my CS50 final project I made a web application which I’ve called Fido’s Fitness and Friends which is a web application to track your dogs fitness and search for other pupmates (or playmates).
+For my CS $Fifty$ final project I made a web application which I’ve called Fido’s Fitness and Friends which is a web application to track your dogs fitness and search for other pupmates (or playmates).
 My inspiration for this application came from my personal experience trying to keep track of the health of one of my dogs this past summer and also a personal desire to tailor a search for playmates for my dog. Think myfitnesspal combined with a platonic version of Tinder, but for dogs!
 With this web app users will register by providing their email address, a password and a postal code. Users can’t register twice and must enter a valid postal code based on a database query.
 The user will be prompted to login and the home page (My Pets tab) will display all of the pets the user has registered including their information. If the user hasn’t added any pets the app will encourage people to add one on the Add Pet tab.
