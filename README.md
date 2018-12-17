@@ -1,4 +1,4 @@
-#Final Project for CS $Fifty$
+# Final Project for CS $Fifty$
 
 ### Main Files
 - Application.py - main functionality
